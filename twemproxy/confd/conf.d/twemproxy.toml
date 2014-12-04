@@ -4,6 +4,7 @@ dest = "/twemproxy.yaml"
 keys = [
   "/services/twemproxy/port",
   "/services/redis",
+  "/services/redis_auth",
 ]
 reload_cmd = "/usr/bin/supervisorctl twemproxy restart"
 check_cmd = "/twemproxy -t -c {{ .src }}"
