@@ -11,17 +11,29 @@ MAINTAINER "metavige <metavige@gmail.com>"
 
 ENV DEBIAN_FRONTEND noninteractive
 
+# apt-get 
+RUN echo 'Acquire::http { Proxy "http://192.168.0.103:3142"; };' > /etc/apt/apt.conf.d/20proxy && \
+    sed -i 's/archive.ubuntu.com/free.nchc.org.tw/g' /etc/apt/sources.list && \
+    apt-get update && \
+    apt-get install build-essential libtool autoconf automake -y && \
+    apt-get clean --no-install-recommends && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 # Install confd
 RUN curl -x http://192.168.0.107:6588 -qL https://github.com/kelseyhightower/confd/releases/download/v0.6.3/confd-0.6.3-linux-amd64 -o /tmp/confd && \
     mv /tmp/confd /usr/local/bin/confd && \
-    chmod +x /usr/local/bin/confd
-RUN mkdir -p /etc/confd/conf.d
-RUN mkdir -p /etc/confd/templates
+    chmod +x /usr/local/bin/confd && \
+    mkdir -p /etc/confd/conf.d && \
+    mkdir -p /etc/confd/templates
 
 # Install twemproxy
-RUN curl -x http://192.168.0.107:6588 -qL https://twemproxy.googlecode.com/files/nutcracker-0.3.0.tar.gz | tar xzf -
-RUN cd nutcracker-0.3.0 && ./configure --enable-debug=log && make && mv src/nutcracker /twemproxy
-RUN cd /root && rm -rf nutcracker-0.3.0
+RUN curl -x http://192.168.0.107:6588 -qL https://github.com/twitter/twemproxy/archive/v0.4.0.tar.gz | tar xzf - 
+RUN cd twemproxy-0.4.0 && \
+    autoreconf -fvi && \
+    ./configure && \ 
+    make && \
+    mv src/nutcracker /twemproxy && \
+    cd /root && rm -rf twemproxy-0.4.0
 
 # Set up run script
 ADD run.sh /root/bin/twemproxy-run.sh
