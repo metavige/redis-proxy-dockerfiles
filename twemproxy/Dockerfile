@@ -11,7 +11,7 @@ MAINTAINER "metavige <metavige@gmail.com>"
 
 ENV DEBIAN_FRONTEND noninteractive
 
-# apt-get 
+# apt-get
 RUN echo 'Acquire::http { Proxy "http://192.168.0.103:3142"; };' > /etc/apt/apt.conf.d/20proxy && \
     sed -i 's/archive.ubuntu.com/free.nchc.org.tw/g' /etc/apt/sources.list && \
     apt-get update && \
@@ -27,13 +27,15 @@ RUN curl -x http://192.168.0.107:6588 -qL https://github.com/kelseyhightower/con
     mkdir -p /etc/confd/templates
 
 # Install twemproxy
-RUN curl -x http://192.168.0.107:6588 -qL https://github.com/twitter/twemproxy/archive/v0.4.0.tar.gz | tar xzf - 
-RUN cd twemproxy-0.4.0 && \
+# RUN curl -x http://192.168.0.107:6588 -qL https://github.com/twitter/twemproxy/archive/v0.4.0.tar.gz | tar xzf -
+RUN export https_proxy="http://192.168.0.107:6588" && \
+    git clone https://github.com/twitter/twemproxy
+RUN cd twemproxy && \
     autoreconf -fvi && \
-    ./configure && \ 
+    ./configure && \
     make && \
     mv src/nutcracker /twemproxy && \
-    cd /root && rm -rf twemproxy-0.4.0
+    cd /root && rm -rf twemproxy
 
 # Set up run script
 ADD run.sh /root/bin/twemproxy-run.sh
