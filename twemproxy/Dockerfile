@@ -32,7 +32,7 @@ RUN export https_proxy="http://192.168.0.107:6588" && \
     git clone https://github.com/twitter/twemproxy
 RUN cd twemproxy && \
     autoreconf -fvi && \
-    ./configure && \
+    ./configure --enable-debug=full && \
     make && \
     mv src/nutcracker /twemproxy && \
     cd /root && rm -rf twemproxy
