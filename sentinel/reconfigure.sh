@@ -14,5 +14,5 @@ TO_PORT=$7
 # 如果有七個參數，才做以下的動作，表示真的有變更 master
 if [ "$#" = "7" ]; then
 	# 透過變更 ETCD 的資料來觸發 confd/twemproxy restart
-	curl -L "$ETCD_HOST/v2/keys/$PROCESS_ID/redis/A" -XPUT -d "value=$TO_IP:$TO_PORT"
+	curl -L "$ETCD_HOST/v2/keys/$MASTER_NAME/redis/A" -XPUT -d "value=$TO_IP:$TO_PORT"
 fi
