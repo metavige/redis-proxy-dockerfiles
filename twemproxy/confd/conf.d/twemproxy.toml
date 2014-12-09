@@ -2,7 +2,6 @@
 src = "twemproxy.tmpl"
 dest = "/twemproxy.yaml"
 keys = [
-  "/services/twemproxy/port",
   "/services/redis",
   "/services/redis_auth",
 ]
