@@ -5,5 +5,5 @@ keys = [
   "/services/redis",
   "/services/redis_auth",
 ]
-reload_cmd = "/usr/bin/supervisorctl twemproxy restart"
+reload_cmd = "/usr/bin/supervisorctl restart twemproxy"
 check_cmd = "/twemproxy -t -c {{ .src }}"
