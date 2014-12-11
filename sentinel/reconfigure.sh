@@ -1,5 +1,4 @@
 #!/bin/sh
-
 # <master-name> <role> <state> <from-ip> <from-port> <to-ip> <to-port>
 export PATH=/sbin:/usr/local/bin:$PATH
 MASTER_NAME=$1
