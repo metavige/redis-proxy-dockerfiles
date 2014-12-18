@@ -6,9 +6,7 @@ situ:
   auto_eject_hosts: false
   timeout: 1000
   redis: true
-  {{if exists "/services/redis_auth"}}
   redis_auth: {{getv "/services/redis_auth"}} 
-  {{end}}
   servers:
   {{range getvs "/services/redis/*"}}  - {{.}}:1
   {{end}}
