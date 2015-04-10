@@ -3,7 +3,8 @@
 # Run docker run with -e ETCD_HOST=<ip>:<port>
 if [ -n "${ETCD_HOST:+x}" ]; then
   mv /etc/supervisor/conf.d/twemproxy.conf /tmp/twemproxy.conf
-  sed -e "/confd -node/s/127.0.0.1:4001/${ETCD_HOST}/" /tmp/twemproxy.conf > /etc/supervisor/conf.d/twemproxy.conf
+  # sed -e "/confd -node/s/127.0.0.1:4001/${ETCD_HOST}/" /tmp/twemproxy.conf > /etc/supervisor/conf.d/twemproxy.conf
+  sed "s/127.0.0.1:4001/$ETCD_HOST/g" /tmp/twemproxy.conf > /etc/supervisor/conf.d/twemproxy.conf
 fi
 
 if [ -n "${PROCESS_ID:+x}" ]; then
